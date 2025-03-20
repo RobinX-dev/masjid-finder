@@ -32,7 +32,9 @@ const itemSchema = new mongoose.Schema({
 });
 
 const userDetailsSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
+  mobileNumber:{ type: String, required: true },
+  email:{ type: String, required: true },
   password: { type: String, required: true },
 });
 
@@ -51,21 +53,23 @@ app.get('/api/servicedetails', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+  console.log(email)
 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.status(400).json({ message: "Username and password are required." });
   }
 
   try {
     // Authenticate user
-    const user = await UserDetails.findOne({ username });
+    const user = await UserDetails.findOne({ email });
+    console.log("password from DB",user)
 
-    if (!user || user.password !== password) {
-      return res.status(401).json({ message: 'Invalid username or password.' });
+    if (!email || user.password !== password) {
+      return res.status(401).json({ message: 'Invalid name or password.' });
     }
 
-    res.status(200).json({ message: 'Login successful', user: { username } });
+    res.status(200).json({ message: 'Login successful', user: { email } });
   } catch (err) {
     console.error("Error processing request:", err);
     res.status(500).json({ message: 'Error processing request', error: err.message });
@@ -73,22 +77,22 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { name,mobileNumber,email, password } = req.body;
 
   // Check if username and password are provided
-  if (!username || !password) {
+  if (!name || !password) {
     return res.status(400).json({ message: "Username and password are required." });
   }
 
   try {
     // Check if the username already exists
-    const existingUser = await UserDetails.findOne({ username });
+    const existingUser = await UserDetails.findOne({ name });
     if (existingUser) {
       return res.status(409).json({ message: "Failed to add user: Username already exists." });
     }
 
     // Create and save the new user
-    const newUser = new UserDetails({ username, password });
+    const newUser = new UserDetails({ name,mobileNumber,email, password });
     await newUser.save();
 
     // Respond with success

@@ -15,7 +15,7 @@ import CustomText from './CustomText';
 const RegisterPage = ({ navigation }) => {
   const [name, setName] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
-  const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [email, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ const RegisterPage = ({ navigation }) => {
     if (
       !name.trim() ||
       !mobileNumber.trim() ||
-      !emailOrUsername.trim() ||
+      !email.trim() ||
       !password.trim() ||
       !confirmPassword.trim()
     ) {
@@ -42,7 +42,7 @@ const RegisterPage = ({ navigation }) => {
       const response = await fetch(`${BASE_URL}register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, mobileNumber, emailOrUsername, password }),
+        body: JSON.stringify({ name, mobileNumber, email, password }),
       });
 
       setIsLoading(false);
@@ -88,7 +88,7 @@ const RegisterPage = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Email ID or Username"
-            value={emailOrUsername}
+            value={email}
             onChangeText={setEmailOrUsername}
             placeholderTextColor="#ddd"
           />

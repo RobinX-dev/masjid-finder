@@ -14,12 +14,12 @@ import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
 
 const LoginPage = ({ setIsLoggedIn, navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       Alert.alert('Error', 'Username and password cannot be empty.');
       return;
     }
@@ -32,14 +32,14 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       setIsLoading(false);
 
       if (response.ok) {
         const data = await response.json();
-        Alert.alert('Login Successful', `Welcome, ${data.user.username}!`);
+        Alert.alert('Login Successful', `Welcome!`);
         await AsyncStorage.setItem('isLoggedin', 'true');
         setIsLoggedIn(true);
       } else {
@@ -65,7 +65,7 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Username"
-            value={username}
+            value={email}
             onChangeText={setUsername}
             placeholderTextColor="#ddd"
           />
