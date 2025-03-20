@@ -6,9 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  LayoutAnimation,
-  Platform,
-  UIManager,
   Animated,
   StyleSheet,
   RefreshControl,
@@ -18,9 +15,9 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import { BASE_URL } from '../environment';
-import CustomText from './CustomText'; 
+import CustomText from './CustomText';
 
-const Home = ({ navigation }) => { 
+const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -55,7 +52,6 @@ const Home = ({ navigation }) => {
         async (position) => {
           const { latitude, longitude } = position.coords;
           const pincode = await fetchPincodeFromCoordinates(latitude, longitude);
-          sessionStorage.setItem('pincode',pincode)
           if (pincode) {
             setPincode(pincode);
           } else {
@@ -75,12 +71,12 @@ const Home = ({ navigation }) => {
   };
 
   const fetchPincodeFromCoordinates = async (latitude, longitude) => {
-    const API_KEY = 'YOUR_OPENCAGE_API_KEY';
-    const url = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=67d337c7e020a870411323hgva983bb`;
+    const API_KEY = 'YOUR_OPENCAGE_API_KEY'; // Replace with your API key
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${API_KEY}`;
 
     try {
       const response = await axios.get(url);
-      const results = response.data.address.postcode;
+      const results = response.data.results[0].components.postcode;
       return results;
     } catch (error) {
       console.error('Error fetching pincode:', error);
@@ -102,7 +98,6 @@ const Home = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // fetchData();
     fetchUserLocation();
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -113,7 +108,7 @@ const Home = ({ navigation }) => {
 
   const handleSearch = async () => {
     if (!pincode || !selectedService) {
-      alert('Please enter both a pincode and a service type.');
+      Alert.alert('Missing Information', 'Please enter both a pincode and select a service type.');
       return;
     }
 
@@ -138,16 +133,13 @@ const Home = ({ navigation }) => {
 
   const handleRefresh = () => {
     setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-      location.reload();
-    }, 2000);
+    fetchData();
   };
 
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#fff" />
+        <ActivityIndicator size="large" color="#e35b00" />
       </View>
     );
   }
@@ -234,15 +226,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#000', // Change background color to black
   },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#e35b00',
+    color: '#fff', // Change title color to white
     textAlign: 'center',
     marginBottom: 20,
-    marginTop:30
   },
   searchContainer: {
     flexDirection: 'row',
@@ -250,7 +241,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    fontFamily:'Montserrat-Regular',
     flex: 1,
     height: 40,
     borderColor: '#e35b00',
@@ -260,6 +250,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     backgroundColor: '#fff',
     justifyContent: 'center',
+    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   searchButton: {
     backgroundColor: '#e35b00',
@@ -272,6 +263,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold', // Use Poppins Bold font
   },
   card: {
     backgroundColor: '#fff',
@@ -285,15 +277,15 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardTitle: {
-    fontFamily:'Montserrat-Regular',
     fontSize: 18,
-    // fontWeight: 'bold',
     color: '#333',
+    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   cardSubtitle: {
     fontSize: 14,
     color: '#666',
     marginTop: 5,
+    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   modalContainer: {
     flex: 1,
@@ -314,6 +306,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
+    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   modalCancel: {
     marginTop: 10,

@@ -3,16 +3,15 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
-  ActivityIndicator,
+  StyleSheet,
   ImageBackground,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
-import { Image } from 'react-native';
 
 const LoginPage = ({ setIsLoggedIn, navigation }) => {
   const [username, setUsername] = useState('');
@@ -56,21 +55,13 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
 
   return (
     <ImageBackground
-      source={{uri:'https://img.freepik.com/free-photo/background-gradient-lights_23-2149304969.jpg?t=st=1742322046~exp=1742325646~hmac=af222707177f7cc424cc4ec461b74dccee5f3f6a6360cf8b07c153f1dfdce2d1&w=740'}} // Change to your image
+      source={require('../assets/masjid.jpeg')} // Same background image as the register page
       style={styles.imageBackground}
       resizeMode="cover"
-    >  
+    >
       <View style={styles.overlay}>
-        <Image
-          source={{ uri: 'https://cdn-icons-gif.flaticon.com/17905/17905396.gif' }}
-          style={styles.image}
-        />
-        {/* Blur effect using CSS-style backdropFilter */}
         <View style={styles.blurContainer}>
-
-      
-        <CustomText style={styles.title}>Login Here</CustomText>
-          
+          <CustomText style={styles.title}>Login Here</CustomText>
           <TextInput
             style={styles.input}
             placeholder="Username"
@@ -98,7 +89,10 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.link}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Register')}
+            style={styles.link}
+          >
             <CustomText style={styles.linkText}>Create an account</CustomText>
           </TouchableOpacity>
         </View>
@@ -113,14 +107,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  image: {
-    width: 200,  // Adjust based on your preferred size
-    height: 200, // Adjust based on your preferred size
-    marginBottom:250,
-    borderWidth: 2, // Optional: Add a border
-    borderColor: '#fff', // Optional: Border color
-  },
-  
   overlay: {
     flex: 1,
     justifyContent: 'center',
@@ -128,8 +114,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay effect
   },
   blurContainer: {
-    position: 'absolute', // Make it position at the bottom
-    bottom: 20, // Adjust the distance from the bottom of the screen
     width: '90%',
     padding: 20,
     borderRadius: 20,
@@ -137,25 +121,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent white
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.4)', // Soft border for more effect
+    borderColor: 'rgba(255, 255, 255, 0.4)', // Soft border effect
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 5,
-    elevation: 0, // Android shadow
-    alignSelf: 'center', // Ensure it's centered horizontally
+    elevation: 5, // Android shadow
     ...Platform.select({
       web: {
         backdropFilter: 'blur(10px)', // Only works on web
       },
     }),
   },
-  
   title: {
     fontSize: 30,
     fontWeight: '700',
     color: '#fff',
     marginBottom: 20,
+    fontFamily: 'Poppins-Bold', // Poppins Font
   },
   input: {
     width: '100%',
@@ -169,11 +152,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
+    fontFamily: 'Poppins-Regular', // Poppins Font
   },
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#e35b00',
+    backgroundColor: '#1b9902', // Primary theme color
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
@@ -188,18 +172,20 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold', // Poppins Font
   },
   buttonDisabled: {
     backgroundColor: '#e0a89e',
   },
   link: {
-    marginTop: 16,
+    marginTop: 10,
   },
   linkText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '500',
     textDecorationLine: 'underline',
+    fontFamily: 'Poppins-Regular', // Poppins Font
   },
 });
 

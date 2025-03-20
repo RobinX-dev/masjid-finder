@@ -13,13 +13,27 @@ import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
 
 const RegisterPage = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!username.trim() || !password.trim()) {
-      Alert.alert('Error', 'Username and password cannot be empty.');
+    if (
+      !name.trim() ||
+      !mobileNumber.trim() ||
+      !emailOrUsername.trim() ||
+      !password.trim() ||
+      !confirmPassword.trim()
+    ) {
+      Alert.alert('Error', 'All fields are required.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match.');
       return;
     }
 
@@ -28,7 +42,7 @@ const RegisterPage = ({ navigation }) => {
       const response = await fetch(`${BASE_URL}register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ name, mobileNumber, emailOrUsername, password }),
       });
 
       setIsLoading(false);
@@ -49,7 +63,7 @@ const RegisterPage = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('../assets/masjid.jpeg')} // Background image
+      source={require('../assets/masjid.jpeg')}
       style={styles.imageBackground}
       resizeMode="cover"
     >
@@ -58,9 +72,24 @@ const RegisterPage = ({ navigation }) => {
           <CustomText style={styles.title}>Create Account</CustomText>
           <TextInput
             style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+            placeholderTextColor="#ddd"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Mobile Number"
+            value={mobileNumber}
+            onChangeText={setMobileNumber}
+            keyboardType="numeric"
+            placeholderTextColor="#ddd"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email ID or Username"
+            value={emailOrUsername}
+            onChangeText={setEmailOrUsername}
             placeholderTextColor="#ddd"
           />
           <TextInput
@@ -69,6 +98,14 @@ const RegisterPage = ({ navigation }) => {
             secureTextEntry
             value={password}
             onChangeText={setPassword}
+            placeholderTextColor="#ddd"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
             placeholderTextColor="#ddd"
           />
           <TouchableOpacity
@@ -102,7 +139,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay effect
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   blurContainer: {
     width: '90%',
@@ -110,17 +147,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent white
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.4)', // Soft border effect
+    borderColor: 'rgba(255, 255, 255, 0.4)',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 5,
-    elevation: 5, // Android shadow
+    elevation: 5,
     ...Platform.select({
       web: {
-        backdropFilter: 'blur(10px)', // Only works on web
+        backdropFilter: 'blur(10px)',
       },
     }),
   },
@@ -129,6 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#fff',
     marginBottom: 20,
+    fontFamily: 'Poppins-Bold',
   },
   input: {
     width: '100%',
@@ -137,16 +175,17 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 12,
     paddingHorizontal: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Slight transparency
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginVertical: 10,
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
+    fontFamily: 'Poppins-Regular',
   },
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#e35b00', // Primary theme color
+    backgroundColor: '#1b9902',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
@@ -161,6 +200,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
   },
   buttonDisabled: {
     backgroundColor: '#e0a89e',
@@ -173,6 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textDecorationLine: 'underline',
+    fontFamily: 'Poppins-Regular',
   },
 });
 
