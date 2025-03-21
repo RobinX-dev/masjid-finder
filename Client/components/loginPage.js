@@ -12,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
+// import LinearGradient from 'react-native-linear-gradient';
 
 const LoginPage = ({ setIsLoggedIn, navigation }) => {
   const [email, setUsername] = useState('');
@@ -54,11 +55,12 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../assets/masjid.jpeg')} // Same background image as the register page
-      style={styles.imageBackground}
-      resizeMode="cover"
-    >
+    // <linearGradient>
+        <ImageBackground
+         source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}}
+          style={styles.imageBackground}
+           resizeMode="cover"
+         >
       <View style={styles.overlay}>
         <View style={styles.blurContainer}>
           <CustomText style={styles.title}>Login Here</CustomText>
@@ -97,7 +99,7 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+      </ImageBackground>
   );
 };
 
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'bottom',
     backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent white
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.4)', // Soft border effect
@@ -127,6 +129,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 5,
     elevation: 5, // Android shadow
+    position: 'absolute', // Position it at the bottom
+    bottom: 20, // Adjust to control spacing from bottom
+    left: '5%', // Center it horizontally
+    right: '5%',
     ...Platform.select({
       web: {
         backdropFilter: 'blur(10px)', // Only works on web

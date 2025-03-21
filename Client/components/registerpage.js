@@ -63,7 +63,7 @@ const RegisterPage = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('../assets/masjid.jpeg')}
+    source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}} 
       style={styles.imageBackground}
       resizeMode="cover"
     >
@@ -154,7 +154,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 5,
-    elevation: 5,
+    elevation: 0,
+    position: 'absolute', // Position it at the bottom
+    bottom: 20, // Adjust to control spacing from bottom
+    left: '5%', // Center it horizontally
+    right: '5%',
     ...Platform.select({
       web: {
         backdropFilter: 'blur(10px)',
