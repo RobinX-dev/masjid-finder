@@ -107,7 +107,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   const handleSearch = async () => {
-    if (!pincode || !selectedService) {
+    if (!pincode) {
       Alert.alert('Missing Information', 'Please enter both a pincode and select a service type.');
       return;
     }
@@ -119,7 +119,7 @@ const Home = ({ navigation }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ pincode, selectedService }),
+        body: JSON.stringify({ pincode }),
       });
 
       const responseData = await response.json();
@@ -166,40 +166,7 @@ const Home = ({ navigation }) => {
           maxLength={6}
         />
 
-        <TouchableOpacity
-          style={styles.input}
-          onPress={() => setModalVisible(true)}
-        >
-          <CustomText style={{ color: selectedService ? '#000' : '#888' }}>
-            {selectedService || 'Select Service Type'}
-          </CustomText>
-        </TouchableOpacity>
       </View>
-
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {serviceTypes.map((type) => (
-              <TouchableOpacity
-                key={type}
-                style={styles.modalOption}
-                onPress={() => {
-                  setSelectedService(type);
-                  setModalVisible(false);
-                }}
-              >
-                <CustomText style={styles.modalText}>{type}</CustomText>
-              </TouchableOpacity>
-            ))}
-            <TouchableOpacity
-              style={styles.modalCancel}
-              onPress={() => setModalVisible(false)}
-            >
-              <CustomText style={styles.modalCancelText}>Cancel</CustomText>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
       <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
         <CustomText style={styles.searchButtonText}>Search</CustomText>
@@ -231,8 +198,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
-    color: '#fff', // Change title color to white
+    // fontWeight: 'bold',
+    color: 'black', // Change title color to white
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -251,7 +218,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
+    
   },
   searchButton: {
     backgroundColor: '#e35b00',
@@ -264,7 +231,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'Poppins-Bold', // Use Poppins Bold font
+    // fontFamily: 'Poppins-Bold',
   },
   card: {
     backgroundColor: '#fff',
@@ -280,13 +247,13 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     color: '#333',
-    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
+    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   cardSubtitle: {
     fontSize: 14,
     color: '#666',
     marginTop: 5,
-    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
+    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   modalContainer: {
     flex: 1,
@@ -307,7 +274,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
-    fontFamily: 'Poppins-Regular', // Use Poppins Regular font
+    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   modalCancel: {
     marginTop: 10,

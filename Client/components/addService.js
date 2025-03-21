@@ -24,14 +24,11 @@ import { BASE_URL } from '../environment';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 const AddServicePage = () => {
-    const [serviceType, setServiceType] = useState('');
-    const [serviceName, setServiceName] = useState('');
+    const [name, setServiceName] = useState('');
     const [address, setAddress] = useState('');
     const [pincode, setPincode] = useState('');
-    const [openTime, setOpenTime] = useState('');
-    const [closeTime, setCloseTime] = useState('');
     const [gmapLink, setGmapLink] = useState('');
-    const [images, setImages] = useState([]);
+    // const [images, setImages] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
     const serviceTypes = ['religious', 'hotel', 'hospital'];
@@ -114,29 +111,26 @@ const AddServicePage = () => {
 
     // Submit Function
     const handleSubmit = async () => {
-        if (!serviceType || !serviceName || !address || !pincode || !openTime || !closeTime || images.length === 0) {
+        if ( !name || !address || !pincode || !gmapLink) {
             alert('Please fill in all fields and select at least one image.');
             return;
         }
     
         // Prepare the data to send
         const data = {
-            serviceType,
-            serviceName,
+            name,
             address,
             pincode,
-            openTime,
-            closeTime,
             gmapLink,
-            images, // Array of base64 images
         };
 
         try {
             const response = await fetch(`${BASE_URL}addservice`, {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify(data),
                 headers: {
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
                 },
             });
     
@@ -165,25 +159,25 @@ const AddServicePage = () => {
 
                                 {/* Other Inputs */}
                                 <Text style={styles.label}>Mosque Name</Text>
-                                <TextInput style={styles.input} placeholder="Enter Service Name" value={serviceName} onChangeText={setServiceName} />
+                                <TextInput style={styles.input} placeholder="Enter Service Name" value={name} onChangeText={setServiceName} />
 
                                 <Text style={styles.label}>Address</Text>
                                 <TextInput style={styles.input} placeholder="Enter Address" value={address} onChangeText={setAddress} />
 
                                 <Text style={styles.label}>Pincode</Text>
                                 <TextInput style={styles.input} placeholder="Enter Pincode" keyboardType="numeric" value={pincode} onChangeText={setPincode} />
-                                
+
                                 <Text style={styles.label}>Google Map Link</Text>
                                 <TextInput style={styles.input} placeholder="Paste the Google map link of the place" value={gmapLink} onChangeText={setGmapLink} />
 
                                 {/* Image Picker */}
-                                <Text style={styles.label}>Upload Images</Text>
+                                {/* <Text style={styles.label}>Upload Images</Text>
                                 <TouchableOpacity style={styles.button} onPress={pickImage}>
                                     <Text style={styles.buttonText}>Choose Images</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
                                 {/* Display Selected Images */}
-                                <FlatList
+                                {/* <FlatList
                                     data={images}
                                     keyExtractor={(item, index) => index.toString()}
                                     horizontal
@@ -191,7 +185,7 @@ const AddServicePage = () => {
                                         <Image source={{ uri: item }} style={styles.image} />
                                     )}
                                     contentContainerStyle={styles.imageList}
-                                />
+                                /> */}
 
                                 {/* Submit Button */}
                                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
