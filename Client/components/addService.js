@@ -163,37 +163,8 @@ const AddServicePage = () => {
                             <BlurView intensity={50} style={styles.blurContainer}>
                                 <Text style={styles.title}>Add Service</Text>
 
-                                {/* Service Type Dropdown */}
-                                <Text style={styles.label}>Service Type</Text>
-                                <TouchableOpacity style={styles.input} onPress={() => setModalVisible(true)}>
-                                    <Text>{serviceType || 'Select Service Type'}</Text>
-                                </TouchableOpacity>
-
-                                {/* Modal for Service Type Selection */}
-                                <Modal visible={modalVisible} transparent animationType="slide">
-                                    <View style={styles.modalContainer}>
-                                        <View style={styles.modalContent}>
-                                            {serviceTypes.map((type) => (
-                                                <TouchableOpacity
-                                                    key={type}
-                                                    style={styles.modalOption}
-                                                    onPress={() => {
-                                                        setServiceType(type);
-                                                        setModalVisible(false);
-                                                    }}
-                                                >
-                                                    <Text style={styles.modalText}>{type}</Text>
-                                                </TouchableOpacity>
-                                            ))}
-                                            <TouchableOpacity style={styles.modalCancel} onPress={() => setModalVisible(false)}>
-                                                <Text style={styles.modalCancelText}>Cancel</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </Modal>
-
                                 {/* Other Inputs */}
-                                <Text style={styles.label}>Service Name</Text>
+                                <Text style={styles.label}>Mosque Name</Text>
                                 <TextInput style={styles.input} placeholder="Enter Service Name" value={serviceName} onChangeText={setServiceName} />
 
                                 <Text style={styles.label}>Address</Text>
@@ -201,12 +172,6 @@ const AddServicePage = () => {
 
                                 <Text style={styles.label}>Pincode</Text>
                                 <TextInput style={styles.input} placeholder="Enter Pincode" keyboardType="numeric" value={pincode} onChangeText={setPincode} />
-
-                                <Text style={styles.label}>Open Time</Text>
-                                <TextInput style={styles.input} placeholder="09:00 AM" value={openTime} onChangeText={setOpenTime} />
-
-                                <Text style={styles.label}>Close Time</Text>
-                                <TextInput style={styles.input} placeholder="06:00 PM" value={closeTime} onChangeText={setCloseTime} />
                                 
                                 <Text style={styles.label}>Google Map Link</Text>
                                 <TextInput style={styles.input} placeholder="Paste the Google map link of the place" value={gmapLink} onChangeText={setGmapLink} />
