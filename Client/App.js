@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 
 // Define theme colors for consistency
 const theme = {
-  primary: '#e35b00',
+  primary: '#1b9902',
   secondary: '#007bff',
   background: '#ebebeb',
   text: '#333',
@@ -127,6 +127,7 @@ const App = () => {
   }
 
   return (
+    
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
       {/* Set status bar to be transparent and light mode */}
       <StatusBar 

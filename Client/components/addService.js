@@ -22,6 +22,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { BASE_URL } from '../environment';
 import * as ImageManipulator from 'expo-image-manipulator';
+import CustomText from './CustomText';
 
 const AddServicePage = () => {
     const [name, setServiceName] = useState('');
@@ -148,26 +149,26 @@ const AddServicePage = () => {
     
 
     return (
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.gradient}>
+        <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
             <SafeAreaView style={styles.safeArea}>
                 <StatusBar barStyle="light-content" />
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <ScrollView contentContainerStyle={styles.container}>
                             <BlurView intensity={50} style={styles.blurContainer}>
-                                <Text style={styles.title}>Add Service</Text>
+                                <CustomText style={styles.title}>Add Service</CustomText>
 
                                 {/* Other Inputs */}
-                                <Text style={styles.label}>Mosque Name</Text>
+                                <CustomText style={styles.label}>Mosque Name</CustomText>
                                 <TextInput style={styles.input} placeholder="Enter Service Name" value={name} onChangeText={setServiceName} />
 
-                                <Text style={styles.label}>Address</Text>
+                                <CustomText style={styles.label}>Address</CustomText>
                                 <TextInput style={styles.input} placeholder="Enter Address" value={address} onChangeText={setAddress} />
 
-                                <Text style={styles.label}>Pincode</Text>
+                                <CustomText style={styles.label}>Pincode</CustomText>
                                 <TextInput style={styles.input} placeholder="Enter Pincode" keyboardType="numeric" value={pincode} onChangeText={setPincode} />
 
-                                <Text style={styles.label}>Google Map Link</Text>
+                                <CustomText style={styles.label}>Google Map Link</CustomText>
                                 <TextInput style={styles.input} placeholder="Paste the Google map link of the place" value={gmapLink} onChangeText={setGmapLink} />
 
                                 {/* Image Picker */}
@@ -205,10 +206,10 @@ const styles = StyleSheet.create({
     safeArea: { flex: 1 },
     container: { flexGrow: 1, padding: 20 },
     blurContainer: { padding: 20, borderRadius: 10, overflow: 'hidden' },
-    title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', color: '#fff', marginBottom: 20 },
-    label: { fontSize: 16, fontWeight: 'bold', marginBottom: 5, color: '#fff' },
-    input: { height: 50, borderColor: '#e35b00', borderWidth: 1, borderRadius: 8, marginBottom: 15, paddingHorizontal: 10, backgroundColor: '#fff' },
-    button: { height: 50, backgroundColor: '#e35b00', justifyContent: 'center', alignItems: 'center', borderRadius: 8, marginTop: 15 },
+    title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', color: '#000', marginBottom: 20 },
+    label: { fontSize: 16, fontWeight: 'bold', marginBottom: 5, color: '#000' },
+    input: { height: 50, borderColor: '#000', borderWidth: 1, borderRadius: 8, marginBottom: 15, paddingHorizontal: 10, backgroundColor: '#fff' },
+    button: { height: 50, backgroundColor: '#1b9902', justifyContent: 'center', alignItems: 'center', borderRadius: 8, marginTop: 15 },
     buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
     image: { width: 100, height: 100, borderRadius: 8, marginRight: 10 },
     imageList: { marginTop: 10 },

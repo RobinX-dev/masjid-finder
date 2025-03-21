@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderColor: '#e35b00',
+    borderColor: '#000',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     
   },
   searchButton: {
-    backgroundColor: '#e35b00',
+    backgroundColor: '#1b9902',
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -247,13 +247,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     color: '#333',
-    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   cardSubtitle: {
     fontSize: 14,
     color: '#666',
     marginTop: 5,
-    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
   },
   modalContainer: {
     flex: 1,
