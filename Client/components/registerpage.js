@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -8,16 +8,16 @@ import {
   ImageBackground,
   Platform,
   ActivityIndicator,
-} from 'react-native';
-import { BASE_URL } from '../environment';
-import CustomText from './CustomText';
+} from "react-native";
+import { BASE_URL } from "../environment";
+import CustomText from "./CustomText";
 
 const RegisterPage = ({ navigation }) => {
-  const [name, setName] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [email, setEmailOrUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmailOrUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
@@ -28,45 +28,45 @@ const RegisterPage = ({ navigation }) => {
       !password.trim() ||
       !confirmPassword.trim()
     ) {
-      Alert.alert('Error', 'All fields are required.');
+      Alert.alert("Error", "All fields are required.");
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match.');
+      Alert.alert("Error", "Passwords do not match.");
       return;
     }
 
     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URL}register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, mobileNumber, email, password }),
       });
 
       setIsLoading(false);
 
       if (response.ok) {
-        Alert.alert('Success', 'Account created successfully!');
-        navigation.navigate('Login');
+        Alert.alert("Success", "Account created successfully!");
+        navigation.navigate("Login");
       } else {
         const errorData = await response.json();
-        Alert.alert('Error', errorData.message || 'Failed to create account.');
+        Alert.alert("Error", errorData.message || "Failed to create account.");
       }
     } catch (error) {
       setIsLoading(false);
-      console.error('Registration error:', error);
-      Alert.alert('Error', 'Something went wrong. Please try again.');
+      console.error("Registration error:", error);
+      Alert.alert("Error", "Something went wrong. Please try again.");
     }
   };
 
   return (
-     <ImageBackground
-             source={require('../assets/backgroundlogin.jpeg')}
-             style={styles.imageBackground}
-               resizeMode="cover"
-             >
+    <ImageBackground
+      source={require("../assets/backgroundlogin.jpeg")}
+      style={styles.imageBackground}
+      resizeMode="cover"
+    >
       <View style={styles.overlay}>
         <View style={styles.blurContainer}>
           <CustomText style={styles.title}>Create Account</CustomText>
@@ -120,7 +120,10 @@ const RegisterPage = ({ navigation }) => {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.link}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+            style={styles.link}
+          >
             <CustomText style={styles.linkText}>Back to Login</CustomText>
           </TouchableOpacity>
         </View>
@@ -132,92 +135,88 @@ const RegisterPage = ({ navigation }) => {
 const styles = StyleSheet.create({
   imageBackground: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   overlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   blurContainer: {
-    width: '90%',
+    width: "90%",
     padding: 20,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.4)',
-    shadowColor: '#000',
+    borderColor: "rgba(255, 255, 255, 0.4)",
+    shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 5,
     elevation: 0,
-    position: 'absolute', // Position it at the bottom
+    position: "absolute", // Position it at the bottom
     bottom: 20, // Adjust to control spacing from bottom
-    left: '5%', // Center it horizontally
-    right: '5%',
+    left: "5%", // Center it horizontally
+    right: "5%",
     ...Platform.select({
       web: {
-        backdropFilter: 'blur(10px)',
+        backdropFilter: "blur(10px)",
       },
     }),
   },
   title: {
     fontSize: 30,
-    fontWeight: '700',
-    color: '#000',
+    fontWeight: "700",
+    color: "#000",
     marginBottom: 20,
-    fontFamily: 'Poppins-Bold',
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 50,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 12,
     paddingHorizontal: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
     fontSize: 16,
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'Poppins-Regular',
+    color: "#000",
+    textAlign: "center",
   },
   button: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    backgroundColor: '#1b9902',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#1b9902",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 12,
     marginVertical: 20,
-    shadowColor: '#e35b00',
+    shadowColor: "#e35b00",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'Poppins-Bold',
+    fontWeight: "bold",
   },
   buttonDisabled: {
-    backgroundColor: '#e0a89e',
+    backgroundColor: "#e0a89e",
   },
   link: {
     marginTop: 10,
   },
   linkText: {
-    color: '#000',
+    color: "#000",
     fontSize: 16,
-    fontWeight: '500',
-    textDecorationLine: 'underline',
-    fontFamily: 'Poppins-Regular',
+    fontWeight: "500",
+    textDecorationLine: "underline",
   },
 });
 
