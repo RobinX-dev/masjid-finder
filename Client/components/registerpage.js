@@ -62,11 +62,11 @@ const RegisterPage = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-    source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}} 
-      style={styles.imageBackground}
-      resizeMode="cover"
-    >
+     <ImageBackground
+             source={require('../assets/backgroundlogin.jpeg')}
+             style={styles.imageBackground}
+               resizeMode="cover"
+             >
       <View style={styles.overlay}>
         <View style={styles.blurContainer}>
           <CustomText style={styles.title}>Create Account</CustomText>
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '700',
-    color: '#fff',
+    color: '#000',
     marginBottom: 20,
     fontFamily: 'Poppins-Bold',
   },
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginVertical: 10,
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
     fontFamily: 'Poppins-Regular',
   },
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linkText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
     fontWeight: '500',
     textDecorationLine: 'underline',

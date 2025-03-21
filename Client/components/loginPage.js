@@ -56,11 +56,11 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
 
   return (
     // <linearGradient>
-        // <ImageBackground
-        //  source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}}
-        //   style={styles.imageBackground}
-        //    resizeMode="cover"
-        //  >
+        <ImageBackground
+         source={require('../assets/backgroundlogin.jpeg')}
+         style={styles.imageBackground}
+           resizeMode="cover"
+         >
       <View style={styles.overlay}>
         <View style={styles.blurContainer}>
           <CustomText style={styles.title}>Login Here</CustomText>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#c2e59c', // Dark overlay effect
+    // backgroundColor: '#c2e59c', // Dark overlay effect
   },
   blurContainer: {
     width: '90%',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '700',
-    color: '#fff',
+    color: '#000',
     marginBottom: 20,
     // fontFamily: 'Poppins-bold', // Poppins Font
   },
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)', // Slight transparency
     marginVertical: 10,
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
     // fontFamily: 'Poppins-Regular', // Poppins Font
   },
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linkText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
     fontWeight: '500',
     textDecorationLine: 'underline',
