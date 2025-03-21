@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#fff',
     marginBottom: 20,
-    fontFamily: 'Poppins-bold', // Poppins Font
+    // fontFamily: 'Poppins-bold', // Poppins Font
   },
   input: {
     width: '100%',
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    fontFamily: 'Poppins-Regular', // Poppins Font
+    // fontFamily: 'Poppins-Regular', // Poppins Font
   },
   button: {
     width: '100%',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'Poppins-Bold', // Poppins Font
+    // fontFamily: 'Poppins-Bold', // Poppins Font
   },
   buttonDisabled: {
     backgroundColor: '#e0a89e',
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textDecorationLine: 'underline',
-    fontFamily: 'Poppins-Regular', // Poppins Font
+    // fontFamily: 'Poppins-Regular', // Poppins Font
   },
 });
 
