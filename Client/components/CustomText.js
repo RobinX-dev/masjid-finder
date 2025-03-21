@@ -12,7 +12,7 @@ const CustomText = ({ style, children, ...props }) => {
 
 const styles = StyleSheet.create({
   defaultText: {
-    fontFamily: 'Montserrat-Regular', // Apply the font globally
+    fontFamily: 'Poppins', // Apply the font globally
   },
 });
 

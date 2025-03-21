@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#fff',
     marginBottom: 20,
-    fontFamily: 'Poppins-Bold', // Poppins Font
+    fontFamily: 'Poppins-bold', // Poppins Font
   },
   input: {
     width: '100%',

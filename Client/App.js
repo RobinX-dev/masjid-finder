@@ -77,7 +77,8 @@ const App = () => {
   const [fontsLoaded] = useFonts({
     'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
     'Comfortaa': require('./assets/fonts/Comfortaa-VariableFont_wght.ttf'),
-  });
+    'Poppins':require('./assets/fonts/Poppins-Light.ttf'),
+    });
 
   useEffect(() => {
     const checkLoginStatus = async () => {

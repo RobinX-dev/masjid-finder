@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: '#000', // Change background color to black
+    backgroundColor:  'rgba(121, 237, 152)'// Change background color to black
+    
   },
   title: {
     fontSize: 26,
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(121, 237, 152)',
   },
   modalContent: {
     width: '80%',
