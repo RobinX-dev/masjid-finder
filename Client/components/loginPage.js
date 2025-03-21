@@ -56,11 +56,11 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
 
   return (
     // <linearGradient>
-        <ImageBackground
-         source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}}
-          style={styles.imageBackground}
-           resizeMode="cover"
-         >
+        // <ImageBackground
+        //  source={{ uri:'https://images.pexels.com/photos/4646214/pexels-photo-4646214.jpeg?auto=compress&cs=tinysrgb&w=600'}}
+        //   style={styles.imageBackground}
+        //    resizeMode="cover"
+        //  >
       <View style={styles.overlay}>
         <View style={styles.blurContainer}>
           <CustomText style={styles.title}>Login Here</CustomText>
@@ -99,7 +99,7 @@ const LoginPage = ({ setIsLoggedIn, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      </ImageBackground>
+      // </ImageBackground>
   );
 };
 
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay effect
+    backgroundColor: '#c2e59c', // Dark overlay effect
   },
   blurContainer: {
     width: '90%',
