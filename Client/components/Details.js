@@ -43,7 +43,7 @@ const DetailsPage = ({ route, navigation }) => {
 
   return (
     <LinearGradient
-    colors={['#f1f1f1', '#c2e59c', '#f1f1f1']}
+      colors={['#f1f1f1', '#c2e59c', '#f1f1f1']}
       style={styles.gradient}
     >
       <View style={styles.container}>
@@ -56,12 +56,12 @@ const DetailsPage = ({ route, navigation }) => {
         </TouchableOpacity>
 
         {/* Details Section */}
-        <Animated.View style={[styles.detailsContainer, { opacity: fadeAnim }]}>
+        <Animated.View style={[styles.detailsContainer, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
           {/* Service Name */}
           <CustomText style={styles.title}>{item.serviceName}</CustomText>
 
           {/* Address */}
-          <View style={[styles.infoCard, { transform: [{ scale: scaleAnim }] }]}>
+          <View style={styles.infoCard}>
             <CustomText style={styles.label}>Address</CustomText>
             <CustomText style={styles.detailText}>{item.address || 'N/A'}</CustomText>
             <CustomText style={styles.detailText}>Pincode: {item.pincode || 'N/A'}</CustomText>
