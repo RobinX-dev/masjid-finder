@@ -184,7 +184,7 @@ const Home = ({ navigation }) => {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => navigation.navigate('Detailspage', { item })}>
                 <View style={styles.card}>
-                  <CustomText style={styles.cardTitle}>{item.serviceName}</CustomText>
+                  <CustomText style={styles.cardTitle}>{item.name}</CustomText>
                   <CustomText style={styles.cardSubtitle}>Pincode: {item.pincode}</CustomText>
                 </View>
               </TouchableOpacity>

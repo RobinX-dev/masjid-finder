@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import {
   View,
+  ScrollView,
   StyleSheet,
   Animated,
   TouchableOpacity,
   Linking,
+  SafeAreaView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Icon for Back button
 import { LinearGradient } from "expo-linear-gradient"; // For gradient background
@@ -41,15 +43,22 @@ const DetailsPage = ({ route, navigation }) => {
     }
   };
 
+  // Extract prayer timings as an array
+  const prayerTimings = Object.entries(item.prayerTimings);
+
+  // Create main prayer timings table (remove last 5 rows)
+  const mainPrayerTimings = prayerTimings.slice(0, -5);
+
+  // Create table for removed last 5 rows
+  const removedPrayerTimings = prayerTimings.slice(-5);
+
   return (
     <LinearGradient
       colors={["#f1f1f1", "#c2e59c", "#f1f1f1"]}
       style={styles.gradient}
     >
-      <View style={styles.container}>
-        {/* Page Title */}
-        <CustomText style={styles.pageTitle}>Mosque Details</CustomText>
-
+      <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Back Button */}
         <TouchableOpacity
           style={styles.backButton}
@@ -65,31 +74,19 @@ const DetailsPage = ({ route, navigation }) => {
             { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
           ]}
         >
-          {/* Service Name */}
-          <CustomText style={styles.title}>{item.serviceName}</CustomText>
+          {/* Title Section */}
+          <CustomText style={styles.title}>{item.name}</CustomText>
 
           {/* Address Section */}
           <View style={styles.infoCard}>
             <CustomText style={styles.label}>Address</CustomText>
             <CustomText style={styles.detailText}>
-              {item.name || "N/A"}
+              {item.address || "N/A"} - {item.pincode || "N/A"}
             </CustomText>
-            <CustomText style={styles.detailText}>
-              {item.address || "N/A"}
-            </CustomText>
-            <CustomText style={styles.detailText}>
-              Pincode: {item.pincode || "N/A"}
-            </CustomText>
-
-            {/* Google Maps Button */}
-            <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
-              <CustomText style={styles.mapButtonText}>
-                Open in Google Maps
-              </CustomText>
-            </TouchableOpacity>
+           
           </View>
 
-          {/* Prayer Timings Table */}
+          {/* Main Prayer Timings Table */}
           <View style={styles.tableContainer}>
             <CustomText style={styles.label}>Prayer Timings</CustomText>
 
@@ -101,7 +98,7 @@ const DetailsPage = ({ route, navigation }) => {
             </View>
 
             {/* Table Rows */}
-            {Object.entries(item.prayerTimings).map(([prayer, timing]) => (
+            {mainPrayerTimings.map(([prayer, timing]) => (
               <View key={prayer} style={styles.tableRow}>
                 <CustomText style={styles.tableCell}>
                   {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
@@ -115,8 +112,39 @@ const DetailsPage = ({ route, navigation }) => {
               </View>
             ))}
           </View>
+
+          {/* Removed Items Table */}
+          <View style={styles.removedTableContainer}>
+            <CustomText style={styles.label}>Special Prayer Timings</CustomText>
+
+            {/* Table Header */}
+            <View style={styles.tableHeader}>
+              <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
+              <CustomText style={styles.tableHeaderText}>Azan</CustomText>
+            </View>
+
+            {/* Table Rows */}
+            {removedPrayerTimings.map(([prayer, timing]) => (
+              <View key={prayer} style={styles.tableRow}>
+                <CustomText style={styles.tableCell}>
+                  {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
+                </CustomText>
+                <CustomText style={styles.tableCell}>
+                  {timing.azan || "N/A"}
+                </CustomText>
+              </View>
+            ))}
+             {/* Google Maps Button */}
+             <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
+              <CustomText style={styles.mapButtonText}>
+                Open in Google Maps
+              </CustomText>
+            </TouchableOpacity>
+          </View>
+
         </Animated.View>
-      </View>
+      </ScrollView>
+      </SafeAreaView>
     </LinearGradient>
   );
 };
@@ -125,17 +153,11 @@ const styles = StyleSheet.create({
   gradient: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
+  scrollContainer: {
+    marginTop:50,
     paddingHorizontal: 20,
-  },
-  pageTitle: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#000", // Black color
-    textAlign: "center",
-    marginBottom: 30,
+    paddingBottom:20,
+
   },
   backButton: {
     position: "absolute",
@@ -152,6 +174,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
+    marginBottom: 20,
   },
   title: {
     fontSize: 26,
@@ -194,6 +217,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
+  removedTableContainer: {
+    marginTop: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
   tableHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -205,7 +238,7 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333",
+    color: "#008000",
     flex: 1,
     textAlign: "center",
   },
