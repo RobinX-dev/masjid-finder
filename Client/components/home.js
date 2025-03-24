@@ -5,19 +5,20 @@ import {
   ActivityIndicator,
   TextInput,
   TouchableOpacity,
-  Modal,
   Animated,
   StyleSheet,
+  StatusBar,
   RefreshControl,
   PermissionsAndroid,
   Alert,
+  Platform,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
-import { SafeAreaView } from 'react-native-web';
+import { SafeAreaView } from 'react-native-safe-area-context';  // SafeAreaView from safe-area-context
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -33,7 +34,7 @@ const Home = ({ navigation }) => {
 
   const fetchUserLocation = async () => {
     try {
-      if (Platform.OS == 'android') {
+      if (Platform.OS === 'android') {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
           {
@@ -155,58 +156,58 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
-     <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
+      <SafeAreaView style={styles.safeArea}> {/* Wrap the entire layout */}
+        <StatusBar barStyle="light-content" />
+        <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+          <CustomText style={styles.title}>Explore Services</CustomText>
 
-      <CustomText style={styles.title}>Explore Services</CustomText>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter pincode"
+              value={pincode}
+              onChangeText={setPincode}
+              keyboardType="numeric"
+              maxLength={6}
+            />
+          </View>
 
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter pincode"
-          value={pincode}
-          onChangeText={setPincode}
-          keyboardType="numeric"
-          maxLength={6}
-        />
-
-      </View>
-
-      <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-        <CustomText style={styles.searchButtonText}>Search</CustomText>
-      </TouchableOpacity>
-
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id.toString()}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Detailspage', { item })}>
-            <View style={styles.card}>
-              <CustomText style={styles.cardTitle}>{item.serviceName}</CustomText>
-              <CustomText style={styles.cardSubtitle}>Pincode: {item.pincode}</CustomText>
-            </View>
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <CustomText style={styles.searchButtonText}>Search</CustomText>
           </TouchableOpacity>
-        )}
-      />
-    </Animated.View>
+
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item._id.toString()}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => navigation.navigate('Detailspage', { item })}>
+                <View style={styles.card}>
+                  <CustomText style={styles.cardTitle}>{item.serviceName}</CustomText>
+                  <CustomText style={styles.cardSubtitle}>Pincode: {item.pincode}</CustomText>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </Animated.View>
+      </SafeAreaView>
     </LinearGradient>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
+  safeArea: { flex: 1 },
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor:  'rgba(121, 237, 152)'// Change background color to black
-    
   },
   title: {
     fontSize: 26,
-    // fontWeight: 'bold',
-    color: 'black', // Change title color to white
+    color: 'black',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -224,8 +225,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginRight: 8,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    
   },
   searchButton: {
     backgroundColor: '#1b9902',
@@ -238,7 +237,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-    // fontFamily: 'Poppins-Bold',
   },
   card: {
     backgroundColor: '#fff',
@@ -259,36 +257,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginTop: 5,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(121, 237, 152)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-  },
-  modalOption: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  modalText: {
-    fontSize: 16,
-    // fontFamily: 'Poppins-Regular', // Use Poppins Regular font
-  },
-  modalCancel: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  modalCancelText: {
-    fontSize: 16,
-    color: 'red',
-    fontWeight: 'bold',
   },
   center: {
     flex: 1,
