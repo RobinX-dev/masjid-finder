@@ -3,7 +3,6 @@ import {
     View,
     Text,
     TextInput,
-    Modal,
     TouchableOpacity,
     StyleSheet,
     ScrollView,
@@ -13,15 +12,11 @@ import {
     Keyboard,
     SafeAreaView,
     StatusBar,
-    Image,
-    FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { BASE_URL } from '../environment';
-import * as ImageManipulator from 'expo-image-manipulator';
 import CustomText from './CustomText';
 
 const AddServicePage = () => {
@@ -29,10 +24,14 @@ const AddServicePage = () => {
     const [address, setAddress] = useState('');
     const [pincode, setPincode] = useState('');
     const [gmapLink, setGmapLink] = useState('');
-    // const [images, setImages] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const serviceTypes = ['religious', 'hotel', 'hospital'];
+    // Prayer timings state
+    const [fajar, setFajar] = useState({ azan: '', iqamah: '' });
+    const [zuhar, setZuhar] = useState({ azan: '', iqamah: '' });
+    const [asar, setAsar] = useState({ azan: '', iqamah: '' });
+    const [magrib, setMagrib] = useState({ azan: '', iqamah: '' });
+    const [isha, setIsha] = useState({ azan: '', iqamah: '' });
+    const [jumuah, setJumuah] = useState({ azan: '', iqamah: '' });
 
     useEffect(() => {
         const getPincode = async () => {
@@ -48,81 +47,27 @@ const AddServicePage = () => {
         getPincode();
     }, []);
 
-    // Image Picker Function
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [5, 3],
-            quality: 1,
-            allowsMultipleSelection: true, // Allow multiple image selection
-        });
-    
-        if (!result.canceled) {
-            const base64Images = await Promise.all(
-                result.assets.map(async (asset) => {
-                    let compressedImage = asset.uri;
-                    let base64;
-                    let quality = 0.5; // Start with 50% quality
-    
-                    // Iteratively compress the image until it's below a certain size
-                    while (true) {
-                        // Resize and compress the image
-                        const manipulatedImage = await ImageManipulator.manipulateAsync(
-                            compressedImage, // Use the compressed image URI
-                            [
-                                { resize: { width: 400, height: 300 } }, // Resize to 400x300
-                            ],
-                            { compress: quality, format: ImageManipulator.SaveFormat.JPEG } // Compress with current quality
-                        );
-    
-                        // Convert the manipulated image to base64
-                        const response = await fetch(manipulatedImage.uri);
-                        const blob = await response.blob();
-                        base64 = await new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => resolve(reader.result);
-                            reader.onerror = reject;
-                            reader.readAsDataURL(blob);
-                        });
-    
-                        // Check the size of the base64 string
-                        const sizeInBytes = (base64.length * (3 / 4)); // Approximate size in bytes
-                        const sizeInKB = sizeInBytes / 1024; // Convert to KB
-    
-                        if (sizeInKB < 10) {
-                            break; // Exit the loop if the image is below 10 KB
-                        } else {
-                            quality -= 0.1; // Reduce quality by 10% and try again
-                            if (quality < 0.1) {
-                                // If quality drops below 10%, stop and use the smallest possible size
-                                break;
-                            }
-                        }
-                    }
-    
-                    return base64;
-                })
-            );
-    
-            // Append new images to the existing images array
-            setImages((prevImages) => [...prevImages, ...base64Images]);
-        }
-    };
-
     // Submit Function
     const handleSubmit = async () => {
-        if ( !name || !address || !pincode || !gmapLink) {
-            alert('Please fill in all fields and select at least one image.');
+        if (!name || !address || !pincode || !gmapLink) {
+            alert('Please fill in all fields.');
             return;
         }
-    
+
         // Prepare the data to send
         const data = {
             name,
             address,
             pincode,
             gmapLink,
+            prayerTimings: {
+                fajar,
+                zuhar,
+                asar,
+                magrib,
+                isha,
+                jumuah,
+            },
         };
 
         try {
@@ -134,7 +79,7 @@ const AddServicePage = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.ok) {
                 alert('Service added successfully!');
             } else {
@@ -146,7 +91,33 @@ const AddServicePage = () => {
             alert('An error occurred. Please try again.');
         }
     };
-    
+
+    // Helper function to render prayer timing inputs
+    const renderPrayerTiming = (label, timing, setTiming) => {
+        return (
+            <View style={styles.prayerContainer}>
+                <Text style={styles.prayerHeading}>{label}</Text>
+                <View style={styles.timingRow}>
+                    <Text style={styles.label}>Azan</Text>
+                    <TextInput
+                        style={[styles.input, styles.timingInput]}
+                        placeholder="Azan time"
+                        value={timing.azan}
+                        onChangeText={(text) => setTiming({ ...timing, azan: text })}
+                    />
+                </View>
+                <View style={styles.timingRow}>
+                    <Text style={styles.label}>Iqamah</Text>
+                    <TextInput
+                        style={[styles.input, styles.timingInput]}
+                        placeholder="Iqamah time"
+                        value={timing.iqamah}
+                        onChangeText={(text) => setTiming({ ...timing, iqamah: text })}
+                    />
+                </View>
+            </View>
+        );
+    };
 
     return (
         <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
@@ -156,37 +127,65 @@ const AddServicePage = () => {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <ScrollView contentContainerStyle={styles.container}>
                             <BlurView intensity={50} style={styles.blurContainer}>
-                                <CustomText style={styles.title}>Add Service</CustomText>
+                                <CustomText style={styles.title}>Add Details</CustomText>
 
-                                {/* Other Inputs */}
-                                <CustomText style={styles.label}>Mosque Name</CustomText>
-                                <TextInput style={styles.input} placeholder="Enter Service Name" value={name} onChangeText={setServiceName} />
+                                {/* Mosque Name */}
+                                <Text style={styles.label}>Mosque Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Enter Service Name"
+                                    value={name}
+                                    onChangeText={setServiceName}
+                                />
 
-                                <CustomText style={styles.label}>Address</CustomText>
-                                <TextInput style={styles.input} placeholder="Enter Address" value={address} onChangeText={setAddress} />
+                                {/* Address */}
+                                <Text style={styles.label}>Address</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Enter Address"
+                                    value={address}
+                                    onChangeText={setAddress}
+                                />
 
-                                <CustomText style={styles.label}>Pincode</CustomText>
-                                <TextInput style={styles.input} placeholder="Enter Pincode" keyboardType="numeric" value={pincode} onChangeText={setPincode} />
+                                {/* Pincode */}
+                                <Text style={styles.label}>Pincode</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Enter Pincode"
+                                    keyboardType="numeric"
+                                    value={pincode}
+                                    onChangeText={setPincode}
+                                />
 
-                                <CustomText style={styles.label}>Google Map Link</CustomText>
-                                <TextInput style={styles.input} placeholder="Paste the Google map link of the place" value={gmapLink} onChangeText={setGmapLink} />
+                                {/* Google Map Link */}
+                                <Text style={styles.label}>Google Map Link</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Paste the Google map link of the place"
+                                    value={gmapLink}
+                                    onChangeText={setGmapLink}
+                                />
 
-                                {/* Image Picker */}
-                                {/* <Text style={styles.label}>Upload Images</Text>
-                                <TouchableOpacity style={styles.button} onPress={pickImage}>
-                                    <Text style={styles.buttonText}>Choose Images</Text>
-                                </TouchableOpacity> */}
+                                {/* Prayer Timings */}
+                                <CustomText style={styles.sectionTitle}>Prayer Timings</CustomText>
 
-                                {/* Display Selected Images */}
-                                {/* <FlatList
-                                    data={images}
-                                    keyExtractor={(item, index) => index.toString()}
-                                    horizontal
-                                    renderItem={({ item }) => (
-                                        <Image source={{ uri: item }} style={styles.image} />
-                                    )}
-                                    contentContainerStyle={styles.imageList}
-                                /> */}
+                                {/* Fajar */}
+                                {renderPrayerTiming('Fajar', fajar, setFajar)}
+
+                                {/* Zuhar */}
+                                {renderPrayerTiming('Zuhar', zuhar, setZuhar)}
+
+                                {/* Asar */}
+                                {renderPrayerTiming('Asar', asar, setAsar)}
+
+                                {/* Magrib */}
+                                {renderPrayerTiming('Magrib', magrib, setMagrib)}
+
+                                {/* Isha */}
+                                {renderPrayerTiming('Isha', isha, setIsha)}
+
+                                {/* Jumuah */}
+                                {renderPrayerTiming('Jumuah', jumuah, setJumuah)}
 
                                 {/* Submit Button */}
                                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -207,18 +206,15 @@ const styles = StyleSheet.create({
     container: { flexGrow: 1, padding: 20 },
     blurContainer: { padding: 20, borderRadius: 10, overflow: 'hidden' },
     title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', color: '#000', marginBottom: 20 },
-    label: { fontSize: 16, fontWeight: 'bold', marginBottom: 5, color: '#000' },
-    input: { height: 50, borderColor: '#000', borderWidth: 1, borderRadius: 8, marginBottom: 15, paddingHorizontal: 10, backgroundColor: '#fff' },
+    sectionTitle: { fontSize: 20, fontWeight: 'bold', marginTop: 20, marginBottom: 10, color: '#000' },
+    label: { fontSize: 16, fontWeight: 'bold', marginRight: 10, color: '#000', width: 100, marginTop:15 }, // Fixed width for labels
+    input: { height: 40, borderColor: 'rgba(95, 95, 95, 0.2)', borderWidth: 1, borderRadius: 8, paddingHorizontal: 10, backgroundColor: '#fff' ,marginTop:15},
+    timingInput: { flex: 1 }, // Takes remaining space in the row
+    timingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 }, // Aligns label and input horizontally
+    prayerContainer: { marginBottom: 20 },
+    prayerHeading: { fontSize: 25, fontWeight: 'bold', marginBottom: 10, color: '#000' },
     button: { height: 50, backgroundColor: '#1b9902', justifyContent: 'center', alignItems: 'center', borderRadius: 8, marginTop: 15 },
     buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-    image: { width: 100, height: 100, borderRadius: 8, marginRight: 10 },
-    imageList: { marginTop: 10 },
-    modalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
-    modalContent: { backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' },
-    modalOption: { padding: 10 },
-    modalText: { fontSize: 16 },
-    modalCancel: { marginTop: 10, padding: 10, alignItems: 'center' },
-    modalCancelText: { color: 'red', fontWeight: 'bold' },
 });
 
 export default AddServicePage;
