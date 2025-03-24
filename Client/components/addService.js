@@ -122,7 +122,7 @@ const AddServicePage = () => {
     return (
         <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
             <SafeAreaView style={styles.safeArea}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-                <StatusBar barStyle="light-content" />
+                <StatusBar barStyle="dark-content" />
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <ScrollView contentContainerStyle={styles.container}>

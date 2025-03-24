@@ -158,7 +158,7 @@ const Home = ({ navigation }) => {
   return (
     <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
       <SafeAreaView style={styles.safeArea}> {/* Wrap the entire layout */}
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="dark-content" />
         <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
           <CustomText style={styles.title}>Explore Services</CustomText>
 

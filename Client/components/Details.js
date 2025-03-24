@@ -58,92 +58,93 @@ const DetailsPage = ({ route, navigation }) => {
       style={styles.gradient}
     >
       <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Back Button */}
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon name="arrow-back" size={28} color="#008000" />
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* Back Button */}
 
-        {/* Details Section */}
-        <Animated.View
-          style={[
-            styles.detailsContainer,
-            { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
-          ]}
-        >
-          {/* Title Section */}
-          <CustomText style={styles.title}>{item.name}</CustomText>
 
-          {/* Address Section */}
-          <View style={styles.infoCard}>
-            <CustomText style={styles.label}>Address</CustomText>
-            <CustomText style={styles.detailText}>
-              {item.address || "N/A"} - {item.pincode || "N/A"}
-            </CustomText>
-           
-          </View>
-
-          {/* Main Prayer Timings Table */}
-          <View style={styles.tableContainer}>
-            <CustomText style={styles.label}>Prayer Timings</CustomText>
-
-            {/* Table Header */}
-            <View style={styles.tableHeader}>
-              <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
-              <CustomText style={styles.tableHeaderText}>Azan</CustomText>
-              <CustomText style={styles.tableHeaderText}>Iqamah</CustomText>
-            </View>
-
-            {/* Table Rows */}
-            {mainPrayerTimings.map(([prayer, timing]) => (
-              <View key={prayer} style={styles.tableRow}>
-                <CustomText style={styles.tableCell}>
-                  {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
-                </CustomText>
-                <CustomText style={styles.tableCell}>
-                  {timing.azan || "N/A"}
-                </CustomText>
-                <CustomText style={styles.tableCell}>
-                  {timing.iqamah || "N/A"}
-                </CustomText>
-              </View>
-            ))}
-          </View>
-
-          {/* Removed Items Table */}
-          <View style={styles.removedTableContainer}>
-            <CustomText style={styles.label}>Special Prayer Timings</CustomText>
-
-            {/* Table Header */}
-            <View style={styles.tableHeader}>
-              <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
-              <CustomText style={styles.tableHeaderText}>Azan</CustomText>
-            </View>
-
-            {/* Table Rows */}
-            {removedPrayerTimings.map(([prayer, timing]) => (
-              <View key={prayer} style={styles.tableRow}>
-                <CustomText style={styles.tableCell}>
-                  {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
-                </CustomText>
-                <CustomText style={styles.tableCell}>
-                  {timing.azan || "N/A"}
-                </CustomText>
-              </View>
-            ))}
-             {/* Google Maps Button */}
-             <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
-              <CustomText style={styles.mapButtonText}>
-                Open in Google Maps
-              </CustomText>
+          {/* Details Section */}
+          <Animated.View
+            style={[
+              styles.detailsContainer,
+              { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name="arrow-back" size={28} color="#008000" />
             </TouchableOpacity>
-          </View>
+            {/* Title Section */}
+            <CustomText style={styles.title}>{item.name}</CustomText>
 
-        </Animated.View>
-      </ScrollView>
+            {/* Address Section */}
+            <View style={styles.infoCard}>
+              <CustomText style={styles.label}>Address</CustomText>
+              <CustomText style={styles.detailText}>
+                {item.address || "N/A"} - {item.pincode || "N/A"}
+              </CustomText>
+
+            </View>
+
+            {/* Main Prayer Timings Table */}
+            <View style={styles.tableContainer}>
+              <CustomText style={styles.label}>Prayer Timings</CustomText>
+
+              {/* Table Header */}
+              <View style={styles.tableHeader}>
+                <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
+                <CustomText style={styles.tableHeaderText}>Azan</CustomText>
+                <CustomText style={styles.tableHeaderText}>Iqamah</CustomText>
+              </View>
+
+              {/* Table Rows */}
+              {mainPrayerTimings.map(([prayer, timing]) => (
+                <View key={prayer} style={styles.tableRow}>
+                  <CustomText style={styles.tableCell}>
+                    {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
+                  </CustomText>
+                  <CustomText style={styles.tableCell}>
+                    {timing.azan || "N/A"}
+                  </CustomText>
+                  <CustomText style={styles.tableCell}>
+                    {timing.iqamah || "N/A"}
+                  </CustomText>
+                </View>
+              ))}
+            </View>
+
+            {/* Removed Items Table */}
+            <View style={styles.removedTableContainer}>
+              <CustomText style={styles.label}>Special Prayer Timings</CustomText>
+
+              {/* Table Header */}
+              <View style={styles.tableHeader}>
+                <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
+                <CustomText style={styles.tableHeaderText}>Azan</CustomText>
+              </View>
+
+              {/* Table Rows */}
+              {removedPrayerTimings.map(([prayer, timing]) => (
+                <View key={prayer} style={styles.tableRow}>
+                  <CustomText style={styles.tableCell}>
+                    {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
+                  </CustomText>
+                  <CustomText style={styles.tableCell}>
+                    {timing.azan || "N/A"}
+                  </CustomText>
+                </View>
+              ))}
+              {/* Google Maps Button */}
+              <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
+                <CustomText style={styles.mapButtonText}>
+                  Open in Google Maps
+                </CustomText>
+              </TouchableOpacity>
+            </View>
+
+          </Animated.View>
+        </ScrollView>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -154,20 +155,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    marginTop:50,
+    marginTop: 50,
     paddingHorizontal: 20,
-    paddingBottom:20,
+    paddingBottom: 20,
 
   },
   backButton: {
     position: "absolute",
-    top: 50,
+    top: 20,
     left: 20,
     zIndex: 10,
   },
   detailsContainer: {
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    backgroundColor: "rgb(255, 255, 255)",
     borderRadius: 20,
     elevation: 5, // Android shadow
     shadowColor: "#000", // iOS shadow
