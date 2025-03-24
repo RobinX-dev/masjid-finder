@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import DetailsPage from './components/Details';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 

@@ -13,9 +13,11 @@ import {
   Alert,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import { BASE_URL } from '../environment';
 import CustomText from './CustomText';
+import { SafeAreaView } from 'react-native-web';
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -153,7 +155,10 @@ const Home = ({ navigation }) => {
   }
 
   return (
+    <SafeAreaView>
+     <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+
       <CustomText style={styles.title}>Explore Services</CustomText>
 
       <View style={styles.searchContainer}>
@@ -186,6 +191,8 @@ const Home = ({ navigation }) => {
         )}
       />
     </Animated.View>
+    </LinearGradient>
+    </SafeAreaView>
   );
 };
 

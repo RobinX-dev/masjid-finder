@@ -29,11 +29,20 @@ const RegisterPage = ({ navigation }) => {
       !confirmPassword.trim()
     ) {
       Alert.alert("Error", "All fields are required.");
+      console.log("Error", "All fields are required.");
       return;
     }
+    
+    if (!/^[6-9]\d{9}$/.test(mobileNumber)) {
+      Alert.alert("Error", "Enter a valid 10-digit mobile number starting with 6-9.");
+      console.log("Error", "Enter a valid 10-digit mobile number starting with 6-9.");
+      return;
+    }
+  
 
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match.");
+      console.log("Error", "Passwords do not match.")
       return;
     }
 
@@ -81,8 +90,13 @@ const RegisterPage = ({ navigation }) => {
             style={styles.input}
             placeholder="Mobile Number"
             value={mobileNumber}
-            onChangeText={setMobileNumber}
+            onChangeText={(text) => {
+              // Allow only numbers
+              const numericText = text.replace(/[^0-9]/g, "");
+              setMobileNumber(numericText);
+            }}
             keyboardType="numeric"
+            maxLength={10}
             placeholderTextColor="#ddd"
           />
           <TextInput
