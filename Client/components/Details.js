@@ -46,11 +46,15 @@ const DetailsPage = ({ route, navigation }) => {
   // Extract prayer timings as an array
   const prayerTimings = Object.entries(item.prayerTimings);
 
-  // Create main prayer timings table (remove last 5 rows)
-  const mainPrayerTimings = prayerTimings.slice(0, -5);
+  // Create main prayer timings table (structured prayers with azan & iqamah)
+  const mainPrayerTimings = prayerTimings.filter(
+    ([prayer, timing]) => typeof timing === "object"
+  );
 
-  // Create table for removed last 5 rows
-  const removedPrayerTimings = prayerTimings.slice(-5);
+  // Special prayer timings (single-value timings)
+  const specialPrayerTimings = prayerTimings.filter(
+    ([prayer, timing]) => typeof timing === "string"
+  );
 
   return (
     <LinearGradient
@@ -59,9 +63,6 @@ const DetailsPage = ({ route, navigation }) => {
     >
       <SafeAreaView>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {/* Back Button */}
-
-
           {/* Details Section */}
           <Animated.View
             style={[
@@ -75,6 +76,7 @@ const DetailsPage = ({ route, navigation }) => {
             >
               <Icon name="arrow-back" size={28} color="#008000" />
             </TouchableOpacity>
+
             {/* Title Section */}
             <CustomText style={styles.title}>{item.name}</CustomText>
 
@@ -84,7 +86,6 @@ const DetailsPage = ({ route, navigation }) => {
               <CustomText style={styles.detailText}>
                 {item.address || "N/A"} - {item.pincode || "N/A"}
               </CustomText>
-
             </View>
 
             {/* Main Prayer Timings Table */}
@@ -114,34 +115,35 @@ const DetailsPage = ({ route, navigation }) => {
               ))}
             </View>
 
-            {/* Removed Items Table */}
+            {/* Special Prayer Timings Table */}
             <View style={styles.removedTableContainer}>
               <CustomText style={styles.label}>Special Prayer Timings</CustomText>
 
               {/* Table Header */}
               <View style={styles.tableHeader}>
                 <CustomText style={styles.tableHeaderText}>Prayer</CustomText>
-                <CustomText style={styles.tableHeaderText}>Azan</CustomText>
+                <CustomText style={styles.tableHeaderText}>Time</CustomText>
               </View>
 
               {/* Table Rows */}
-              {removedPrayerTimings.map(([prayer, timing]) => (
+              {specialPrayerTimings.map(([prayer, timing]) => (
                 <View key={prayer} style={styles.tableRow}>
                   <CustomText style={styles.tableCell}>
                     {prayer.charAt(0).toUpperCase() + prayer.slice(1)}
                   </CustomText>
                   <CustomText style={styles.tableCell}>
-                    {timing.azan || "N/A"}
+                    {timing || "N/A"}
                   </CustomText>
                 </View>
               ))}
-              {/* Google Maps Button */}
-              <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
-                <CustomText style={styles.mapButtonText}>
-                  Open in Google Maps
-                </CustomText>
-              </TouchableOpacity>
             </View>
+
+            {/* Google Maps Button */}
+            <TouchableOpacity style={styles.mapButton} onPress={openGoogleMaps}>
+              <CustomText style={styles.mapButtonText}>
+                Open in Google Maps
+              </CustomText>
+            </TouchableOpacity>
 
           </Animated.View>
         </ScrollView>
@@ -158,7 +160,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingHorizontal: 20,
     paddingBottom: 20,
-
   },
   backButton: {
     position: "absolute",
@@ -170,8 +171,8 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "rgb(255, 255, 255)",
     borderRadius: 20,
-    elevation: 5, // Android shadow
-    shadowColor: "#000", // iOS shadow
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 5,

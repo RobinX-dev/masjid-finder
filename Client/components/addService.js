@@ -3,7 +3,7 @@ import {
     View,
     Text,
     TextInput,
-    TouchableOpacity, 
+    TouchableOpacity,
     StyleSheet,
     ScrollView,
     KeyboardAvoidingView,
@@ -32,6 +32,11 @@ const AddServicePage = () => {
     const [magrib, setMagrib] = useState({ azan: '', iqamah: '' });
     const [isha, setIsha] = useState({ azan: '', iqamah: '' });
     const [jumuah, setJumuah] = useState({ azan: '', iqamah: '' });
+    const [ishraq, setIshraq] = useState('');
+    const [taraveeh, setTaraveeh] = useState('');
+    const [sahar, setSahar] = useState('');
+    const [ifthar, setIfthar] = useState('');
+    const [eid, setEid] = useState('');
 
     useEffect(() => {
         const getPincode = async () => {
@@ -67,6 +72,11 @@ const AddServicePage = () => {
                 magrib,
                 isha,
                 jumuah,
+                ishraq,
+                taraveeh,
+                sahar,
+                ifthar,
+                eid,
             },
         };
 
@@ -93,35 +103,33 @@ const AddServicePage = () => {
     };
 
     // Helper function to render prayer timing inputs
-    const renderPrayerTiming = (label, timing, setTiming) => {
-        return (
-            <View style={styles.prayerContainer}>
-                <Text style={styles.prayerHeading}>{label}</Text>
-                <View style={styles.timingRow}>
-                    <Text style={styles.label}>Azan</Text>
-                    <TextInput
-                        style={[styles.input, styles.timingInput]}
-                        placeholder="Azan time"
-                        value={timing.azan}
-                        onChangeText={(text) => setTiming({ ...timing, azan: text })}
-                    />
-                </View>
-                <View style={styles.timingRow}>
-                    <Text style={styles.label}>Iqamah</Text>
-                    <TextInput
-                        style={[styles.input, styles.timingInput]}
-                        placeholder="Iqamah time"
-                        value={timing.iqamah}
-                        onChangeText={(text) => setTiming({ ...timing, iqamah: text })}
-                    />
-                </View>
+    const renderPrayerTiming = (label, timing, setTiming) => (
+        <View style={styles.prayerContainer}>
+            <Text style={styles.prayerHeading}>{label}</Text>
+            <View style={styles.timingRow}>
+                <Text style={styles.label}>Azan</Text>
+                <TextInput
+                    style={[styles.input, styles.timingInput]}
+                    placeholder="Azan time"
+                    value={timing.azan}
+                    onChangeText={(text) => setTiming({ ...timing, azan: text })}
+                />
             </View>
-        );
-    };
+            <View style={styles.timingRow}>
+                <Text style={styles.label}>Iqamah</Text>
+                <TextInput
+                    style={[styles.input, styles.timingInput]}
+                    placeholder="Iqamah time"
+                    value={timing.iqamah}
+                    onChangeText={(text) => setTiming({ ...timing, iqamah: text })}
+                />
+            </View>
+        </View>
+    );
 
     return (
         <LinearGradient colors={['#f1f1f1', '#c2e59c', '#f1f1f1']} style={styles.gradient}>
-            <SafeAreaView style={styles.safeArea}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+            <SafeAreaView style={styles.safeArea}>
                 <StatusBar barStyle="dark-content" />
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -131,61 +139,45 @@ const AddServicePage = () => {
 
                                 {/* Mosque Name */}
                                 <Text style={styles.label}>Mosque Name</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Enter Service Name"
-                                    value={name}
-                                    onChangeText={setServiceName}
-                                />
+                                <TextInput style={styles.input} placeholder="Enter Service Name" value={name} onChangeText={setServiceName} />
 
                                 {/* Address */}
                                 <Text style={styles.label}>Address</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Enter Address"
-                                    value={address}
-                                    onChangeText={setAddress}
-                                />
+                                <TextInput style={styles.input} placeholder="Enter Address" value={address} onChangeText={setAddress} />
 
                                 {/* Pincode */}
                                 <Text style={styles.label}>Pincode</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Enter Pincode"
-                                    keyboardType="numeric"
-                                    value={pincode}
-                                    onChangeText={setPincode}
-                                />
+                                <TextInput style={styles.input} placeholder="Enter Pincode" keyboardType="numeric" value={pincode} onChangeText={setPincode} />
 
                                 {/* Google Map Link */}
                                 <Text style={styles.label}>Google Map Link</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Paste the Google map link of the place"
-                                    value={gmapLink}
-                                    onChangeText={setGmapLink}
-                                />
+                                <TextInput style={styles.input} placeholder="Paste Google map link" value={gmapLink} onChangeText={setGmapLink} />
 
                                 {/* Prayer Timings */}
                                 <CustomText style={styles.sectionTitle}>Prayer Timings</CustomText>
 
-                                {/* Fajar */}
                                 {renderPrayerTiming('Fajar', fajar, setFajar)}
-
-                                {/* Zuhar */}
                                 {renderPrayerTiming('Zuhar', zuhar, setZuhar)}
-
-                                {/* Asar */}
                                 {renderPrayerTiming('Asar', asar, setAsar)}
-
-                                {/* Magrib */}
                                 {renderPrayerTiming('Magrib', magrib, setMagrib)}
-
-                                {/* Isha */}
                                 {renderPrayerTiming('Isha', isha, setIsha)}
-
-                                {/* Jumuah */}
                                 {renderPrayerTiming('Jumuah', jumuah, setJumuah)}
+
+                                {/* Additional Prayers */}
+                                <Text style={styles.label}>Ishraq</Text>
+                                <TextInput style={styles.input} placeholder="Ishraq time" value={ishraq} onChangeText={setIshraq} />
+
+                                <Text style={styles.label}>Taraveeh</Text>
+                                <TextInput style={styles.input} placeholder="Taraveeh time" value={taraveeh} onChangeText={setTaraveeh} />
+
+                                <Text style={styles.label}>Sahar</Text>
+                                <TextInput style={styles.input} placeholder="Sahar time" value={sahar} onChangeText={setSahar} />
+
+                                <Text style={styles.label}>Ifthar</Text>
+                                <TextInput style={styles.input} placeholder="Ifthar time" value={ifthar} onChangeText={setIfthar} />
+
+                                <Text style={styles.label}>Eid</Text>
+                                <TextInput style={styles.input} placeholder="Eid prayer time" value={eid} onChangeText={setEid} />
 
                                 {/* Submit Button */}
                                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -199,6 +191,8 @@ const AddServicePage = () => {
         </LinearGradient>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     gradient: { flex: 1 },
